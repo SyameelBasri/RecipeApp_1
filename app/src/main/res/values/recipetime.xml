@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="recipe_time">
+        <item>All</item>
+        <item> 0 &#8211; 5 min</item>
+        <item> 6 &#8211; 15 min</item>
+        <item> 16 &#8211; 30 min</item>
+        <item> 31 &#8211; 45 min</item>
+        <item> 46 &#8211; 59 min</item>
+        <item> 60+ min</item>
+    </string-array>
+</resources>
