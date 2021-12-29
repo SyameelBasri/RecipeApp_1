@@ -54,9 +54,9 @@ class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         val recipePaxList: MutableList<String> = resources.getStringArray(R.array.recipe_pax).toMutableList()
         recipePaxList.remove("All")
 
-        recipeTypes.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item,recipeTypeList)
-        recipeTime.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item,recipeTimeList)
-        recipePax.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item,recipePaxList)
+        recipeTypes.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,recipeTypeList)
+        recipeTime.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,recipeTimeList)
+        recipePax.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,recipePaxList)
 
         recipeTypes.onItemSelectedListener = this
         recipeTime.onItemSelectedListener = this

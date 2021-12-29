@@ -40,7 +40,7 @@
         android:drawableTint="@color/white"
         android:gravity="left|center_vertical"
         android:background="@drawable/btn_background"
-        android:text="Edit"
+        android:text="Save"
         android:textSize="18sp"/>
 
 </LinearLayout>

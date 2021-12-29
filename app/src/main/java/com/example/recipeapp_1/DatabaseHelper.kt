@@ -11,7 +11,6 @@ import java.lang.Exception
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-
         private const val DATABASE_VERSION = 1
         private const val DATABASE_NAME = "recipe.db"
         private const val TBL_RECIPE = "tbl_recipe"

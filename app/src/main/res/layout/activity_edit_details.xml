@@ -29,26 +29,78 @@
         android:inputType="textPersonName|textCapWords"
         android:padding="10dp" />
 
-    <Spinner
-        android:id="@+id/spinnerRecipeType"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"/>
+        android:fontFamily="sans-serif"
+        android:paddingHorizontal="10dp"
+        android:text="Recipe Type"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
 
-    <Spinner
-        android:id="@+id/spinnerRecipeTime"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"/>
+        android:layout_marginHorizontal="10dp"
+        android:padding="8dp"
+        android:elevation="10dp">
+        <Spinner
+            android:id="@+id/spinnerRecipeType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </androidx.cardview.widget.CardView>
 
-    <Spinner
-        android:id="@+id/spinnerRecipePax"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"/>
+        android:fontFamily="sans-serif"
+        android:paddingHorizontal="10dp"
+        android:text="Time Required"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:padding="8dp"
+        android:elevation="10dp">
+        <Spinner
+            android:id="@+id/spinnerRecipeTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:paddingHorizontal="10dp"
+        android:text="Pax"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:padding="8dp"
+        android:elevation="10dp">
+        <Spinner
+            android:id="@+id/spinnerRecipePax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </androidx.cardview.widget.CardView>
+
 
     <Button
         android:id="@+id/editButton"
@@ -61,7 +113,7 @@
         android:drawableTint="@color/white"
         android:gravity="left|center_vertical"
         android:background="@drawable/btn_background"
-        android:text="Edit"
+        android:text="Save"
         android:textSize="18sp"/>
 
 </LinearLayout>
