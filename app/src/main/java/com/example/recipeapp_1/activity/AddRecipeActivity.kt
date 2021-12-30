@@ -82,7 +82,9 @@ class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
             val status = dbHelper.insertRecipe(recipe)
             if(status > -1){
                 Toast.makeText(this,"Recipe Added", Toast.LENGTH_SHORT).show()
-                clearEditText()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                this.finish()
             }else{
                 Toast.makeText(this, "Record not saved", Toast.LENGTH_SHORT).show()
             }
@@ -113,14 +115,6 @@ class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         recipeTypes.onItemSelectedListener = this
         recipeTime.onItemSelectedListener = this
         recipePax.onItemSelectedListener = this
-    }
-
-    private fun clearEditText(){
-        recipeImage.setImageResource(R.drawable.ic_action_addimage)
-        fieldRecipeName.setText("")
-        fieldRecipeIngredients.setText("")
-        fieldRecipeSteps.setText("")
-        fieldRecipeName.requestFocus()
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
