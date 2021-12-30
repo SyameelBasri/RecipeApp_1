@@ -1,6 +1,7 @@
-package com.example.recipeapp_1
+package com.example.recipeapp_1.activity
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,10 +11,18 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipeapp_1.DatabaseHelper
+import com.example.recipeapp_1.R
+import com.example.recipeapp_1.RecipeListAdapter
 import com.example.recipeapp_1.model.RecipeModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+
+    companion object{
+        private const val STORAGE_REQUEST_PERMISSION = 4
+    }
+
     private lateinit var recipeTypes: Spinner
     private lateinit var recipeTime: Spinner
     private lateinit var recipePax: Spinner
@@ -32,10 +41,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        dbHelper = DatabaseHelper(this)
+
         initView()
         initRecyclerView()
 
-        dbHelper = DatabaseHelper(this)
         recipeList = dbHelper.getRecipes(selectedType, selectedTime, selectedPax)
         adapter?.addItems(recipeList)
 
@@ -44,18 +54,25 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
         adapter?.setOnClickItem {
-            val intent = Intent(this,RecipeDetailsActivity::class.java)
+            val intent = Intent(this, RecipeDetailsActivity::class.java)
             intent.putExtra("id", it.recipeId)
             startActivity(intent)
         }
+    }
 
-        recipeTypes.adapter = ArrayAdapter.createFromResource(this, R.array.recipe_type, android.R.layout.simple_spinner_dropdown_item)
-        recipeTime.adapter = ArrayAdapter.createFromResource(this, R.array.recipe_time, android.R.layout.simple_spinner_dropdown_item)
-        recipePax.adapter = ArrayAdapter.createFromResource(this, R.array.recipe_pax, android.R.layout.simple_spinner_dropdown_item)
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == STORAGE_REQUEST_PERMISSION){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
-        recipeTypes.onItemSelectedListener = this
-        recipeTime.onItemSelectedListener = this
-        recipePax.onItemSelectedListener = this
+            }else{
+                Toast.makeText(this,"No storage permission", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
@@ -81,6 +98,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         recipeTime = findViewById(R.id.spinnerRecipeTime)
         recipePax = findViewById(R.id.spinnerRecipePax)
         recyclerView = findViewById(R.id.recyclerView)
+
+        recipeTypes.adapter = ArrayAdapter.createFromResource(this, R.array.recipe_type, android.R.layout.simple_spinner_dropdown_item)
+        recipeTime.adapter = ArrayAdapter.createFromResource(this, R.array.recipe_time, android.R.layout.simple_spinner_dropdown_item)
+        recipePax.adapter = ArrayAdapter.createFromResource(this, R.array.recipe_pax, android.R.layout.simple_spinner_dropdown_item)
+
+        recipeTypes.onItemSelectedListener = this
+        recipeTime.onItemSelectedListener = this
+        recipePax.onItemSelectedListener = this
     }
 
     private fun initRecyclerView(){

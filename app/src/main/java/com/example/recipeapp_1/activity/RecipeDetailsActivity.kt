@@ -1,4 +1,4 @@
-package com.example.recipeapp_1
+package com.example.recipeapp_1.activity
 
 import android.Manifest
 import android.app.Activity
@@ -14,6 +14,8 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.recipeapp_1.DatabaseHelper
+import com.example.recipeapp_1.R
 import com.example.recipeapp_1.model.RecipeModel
 import java.io.ByteArrayOutputStream
 
@@ -54,19 +56,19 @@ class RecipeDetailsActivity : AppCompatActivity() {
         setView()
 
         btnEditRecipeDetails.setOnClickListener{
-            val intent = Intent(this,EditDetailsActivity::class.java)
+            val intent = Intent(this, EditDetailsActivity::class.java)
             intent.putExtra("id", recipe.recipeId)
             startActivity(intent)
         }
 
         btnEditRecipeIngredients.setOnClickListener{
-            val intent = Intent(this,EditIngredientsActivity::class.java)
+            val intent = Intent(this, EditIngredientsActivity::class.java)
             intent.putExtra("id", recipe.recipeId)
             startActivity(intent)
         }
 
         btnEditRecipeSteps.setOnClickListener{
-            val intent = Intent(this,EditStepsActivity::class.java)
+            val intent = Intent(this, EditStepsActivity::class.java)
             intent.putExtra("id", recipe.recipeId)
             startActivity(intent)
         }
@@ -80,7 +82,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         ivRecipeImg = findViewById(R.id.ivRecipeImage)
         tvRecipeName = findViewById(R.id.tvRecipeName)
         tvRecipeType = findViewById(R.id.tvRecipeType)
-        tvRecipeTime = findViewById(R.id.tvRecipeTime )
+        tvRecipeTime = findViewById(R.id.tvRecipeTime)
         tvRecipePax = findViewById(R.id.tvRecipePax)
         tvRecipeIngredients = findViewById(R.id.tvIngredients)
         tvRecipeSteps = findViewById(R.id.tvSteps)
@@ -108,7 +110,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         alertDialog.setPositiveButton("Yes"){ dialog, _ ->
             dbHelper.deleteRecipe(id)
             dialog.dismiss()
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             this.finish()
         }

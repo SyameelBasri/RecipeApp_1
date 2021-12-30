@@ -1,4 +1,4 @@
-package com.example.recipeapp_1
+package com.example.recipeapp_1.activity
 
 import android.Manifest
 import android.app.Activity
@@ -14,11 +14,10 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.recipeapp_1.DatabaseHelper
+import com.example.recipeapp_1.R
 import com.example.recipeapp_1.model.RecipeModel
 import java.io.ByteArrayOutputStream
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.PI
 
 class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
@@ -52,20 +51,6 @@ class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
         initView()
 
-        val recipeTypeList: MutableList<String> = resources.getStringArray(R.array.recipe_type).toMutableList()
-        recipeTypeList.remove("All")
-        val recipeTimeList: MutableList<String> = resources.getStringArray(R.array.recipe_time).toMutableList()
-        recipeTimeList.remove("All")
-        val recipePaxList: MutableList<String> = resources.getStringArray(R.array.recipe_pax).toMutableList()
-        recipePaxList.remove("All")
-
-        recipeTypes.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,recipeTypeList)
-        recipeTime.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,recipeTimeList)
-        recipePax.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,recipePaxList)
-
-        recipeTypes.onItemSelectedListener = this
-        recipeTime.onItemSelectedListener = this
-        recipePax.onItemSelectedListener = this
 
         val editRecipeImage:ImageButton = findViewById(R.id.edit_recipeImage)
         editRecipeImage.setOnClickListener{addImage()}
@@ -113,6 +98,21 @@ class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         fieldRecipeIngredients = findViewById(R.id.recipeIngredients)
         fieldRecipeSteps = findViewById(R.id.recipeSteps)
         btnAddRecipe = findViewById(R.id.addButton)
+
+        val recipeTypeList: MutableList<String> = resources.getStringArray(R.array.recipe_type).toMutableList()
+        recipeTypeList.remove("All")
+        val recipeTimeList: MutableList<String> = resources.getStringArray(R.array.recipe_time).toMutableList()
+        recipeTimeList.remove("All")
+        val recipePaxList: MutableList<String> = resources.getStringArray(R.array.recipe_pax).toMutableList()
+        recipePaxList.remove("All")
+
+        recipeTypes.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,recipeTypeList)
+        recipeTime.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,recipeTimeList)
+        recipePax.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,recipePaxList)
+
+        recipeTypes.onItemSelectedListener = this
+        recipeTime.onItemSelectedListener = this
+        recipePax.onItemSelectedListener = this
     }
 
     private fun clearEditText(){

@@ -1,14 +1,27 @@
 package com.example.recipeapp_1
 
+import android.Manifest
 import android.content.ContentValues
 import android.content.Context
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.database.Cursor
+import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.recipeapp_1.model.RecipeModel
+import java.io.*
+import java.lang.Error
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         private const val DATABASE_VERSION = 1
@@ -24,24 +37,66 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private const val RECIPE_IMAGE = "image"
     }
 
+    private val preferences: SharedPreferences = context.getSharedPreferences(
+        "${context.packageName}.database_versions",
+        Context.MODE_PRIVATE
+    )
+
+    private fun installedDatabaseIsOutdated(): Boolean {
+        return preferences.getInt(DATABASE_NAME, 0) < DATABASE_VERSION
+    }
+
+    private fun writeDatabaseVersionInPreferences() {
+        preferences.edit().apply {
+            putInt(DATABASE_NAME, DATABASE_VERSION)
+            apply()
+        }
+    }
+
+    private fun installDatabaseFromAssets() {
+        val inputStream = context.assets.open("recipe.db")
+
+        try {
+            val outputFile = File(context.getDatabasePath(DATABASE_NAME).path)
+            val outputStream = FileOutputStream(outputFile)
+
+            inputStream.copyTo(outputStream)
+            inputStream.close()
+
+            outputStream.flush()
+            outputStream.close()
+        } catch (exception: Throwable) {
+            throw RuntimeException("The $DATABASE_NAME database couldn't be installed.", exception)
+        }
+    }
+
+    @Synchronized
+    private fun installOrUpdateIfNecessary() {
+        if (installedDatabaseIsOutdated()) {
+            context.deleteDatabase(DATABASE_NAME)
+            installDatabaseFromAssets()
+            writeDatabaseVersionInPreferences()
+        }
+    }
+
+    override fun getWritableDatabase(): SQLiteDatabase {
+        installOrUpdateIfNecessary()
+        return super.getWritableDatabase()
+    }
+
+    override fun getReadableDatabase(): SQLiteDatabase {
+        installOrUpdateIfNecessary()
+        return super.getReadableDatabase()
+    }
+
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTblRecipe = ("CREATE TABLE " + TBL_RECIPE + "("
-                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + RECIPE_NAME + " TEXT,"
-                + RECIPE_TYPE + " TEXT,"
-                + RECIPE_TIME + " TEXT,"
-                + RECIPE_PAX + " TEXT,"
-                + RECIPE_INGREDIENTS + " TEXT,"
-                + RECIPE_STEPS + " TEXT,"
-                + RECIPE_IMAGE + " BLOB"
-                + ")")
-        db?.execSQL(createTblRecipe)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
         db!!.execSQL("DROP TABLE IF EXISTS $TBL_RECIPE")
         onCreate(db)
     }
+
 
     fun insertRecipe(recipe: RecipeModel): Long{
         val db = this.writableDatabase
@@ -91,7 +146,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun getRecipes(type: String, time: String, pax: String): ArrayList<RecipeModel>{
         val recipeList: ArrayList<RecipeModel> = ArrayList()
-        var selectQuery = "SELECT * FROM $TBL_RECIPE"
+        var selectQuery = "SELECT * FROM $TBL_RECIPE ORDER BY $ID DESC"
         val db = this.readableDatabase
 
         if(type != "All"){

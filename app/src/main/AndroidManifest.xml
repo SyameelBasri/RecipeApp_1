@@ -3,6 +3,7 @@
     package="com.example.recipeapp_1" >
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -13,29 +14,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RecipeApp_1" >
         <activity
-            android:name=".EditIngredientsActivity"
+            android:name=".activity.EditIngredientsActivity"
             android:exported="false"
             android:label="Edit Ingredients" />
         <activity
-            android:name=".EditStepsActivity"
+            android:name=".activity.EditStepsActivity"
             android:exported="false"
             android:label="Edit Steps" />
         <activity
-            android:name=".EditDetailsActivity"
+            android:name=".activity.EditDetailsActivity"
             android:exported="false"
             android:label="Edit Recipe Details" />
         <activity
-            android:name=".RecipeDetailsActivity"
+            android:name=".activity.RecipeDetailsActivity"
             android:exported="false"
             android:label="Recipe Details"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".AddRecipeActivity"
+            android:name=".activity.AddRecipeActivity"
             android:exported="false"
             android:label="Add New Recipe"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

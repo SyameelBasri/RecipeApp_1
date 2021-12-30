@@ -1,10 +1,12 @@
-package com.example.recipeapp_1
+package com.example.recipeapp_1.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.example.recipeapp_1.DatabaseHelper
+import com.example.recipeapp_1.R
 import com.example.recipeapp_1.model.RecipeModel
 
 class EditDetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -33,7 +35,7 @@ class EditDetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         btnEdit.setOnClickListener{
             editRecipeDetails()
-            val intent = Intent(this,RecipeDetailsActivity::class.java)
+            val intent = Intent(this, RecipeDetailsActivity::class.java)
             intent.putExtra("id", recipe.recipeId)
             startActivity(intent)
             this.finish()

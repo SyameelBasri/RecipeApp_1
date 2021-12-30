@@ -1,4 +1,4 @@
-package com.example.recipeapp_1
+package com.example.recipeapp_1.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.recipeapp_1.DatabaseHelper
+import com.example.recipeapp_1.R
 import com.example.recipeapp_1.model.RecipeModel
 
 class EditIngredientsActivity : AppCompatActivity() {
@@ -38,7 +40,7 @@ class EditIngredientsActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this,"Update failed", Toast.LENGTH_LONG).show()
                 }
-                val intent = Intent(this,RecipeDetailsActivity::class.java)
+                val intent = Intent(this, RecipeDetailsActivity::class.java)
                 intent.putExtra("id", recipe.recipeId)
                 startActivity(intent)
                 this.finish()
