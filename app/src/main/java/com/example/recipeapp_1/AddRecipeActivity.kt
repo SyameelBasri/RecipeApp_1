@@ -5,23 +5,27 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.recipeapp_1.model.RecipeModel
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.PI
 
 class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     companion object{
         private const val CAMERA_PERMISSION_CODE = 1
         private const val CAMERA_REQUEST_CODE = 2
+        private const val PICK_IMAGE = 3
     }
 
     private lateinit var dbHelper: DatabaseHelper
@@ -38,6 +42,7 @@ class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
     private var selectedTime = ""
     private var selectedPax = ""
     private var recipeThumbnail: Bitmap? = null
+    private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +68,7 @@ class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         recipePax.onItemSelectedListener = this
 
         val editRecipeImage:ImageButton = findViewById(R.id.edit_recipeImage)
-        editRecipeImage.setOnClickListener{startCamera()}
+        editRecipeImage.setOnClickListener{addImage()}
 
         btnAddRecipe.setOnClickListener{addRecipe()}
     }
@@ -133,6 +138,28 @@ class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         selectedPax = "1 - 2 pax"
     }
 
+    private fun addImage(){
+        // setup the alert builder
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Get image from camera or gallery")
+
+        val method = arrayOf("Camera", "Gallery")
+        builder.setItems(method) { dialog, which ->
+            when (which) {
+                0 -> {startCamera()}
+                1 -> {openGallery()}
+            }
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun openGallery(){
+        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        startActivityForResult(gallery, PICK_IMAGE)
+    }
+
     private fun startCamera(){
         if(ContextCompat.checkSelfPermission(
                 this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
@@ -169,6 +196,11 @@ class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == CAMERA_REQUEST_CODE){
                 recipeThumbnail = data!!.extras!!.get("data") as Bitmap
+                recipeImage.setImageBitmap(recipeThumbnail)
+            }
+            if (requestCode == PICK_IMAGE) {
+                imageUri = data?.data
+                recipeThumbnail = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
                 recipeImage.setImageBitmap(recipeThumbnail)
             }
         }
