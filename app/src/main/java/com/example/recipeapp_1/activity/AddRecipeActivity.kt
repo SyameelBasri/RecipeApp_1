@@ -1,3 +1,7 @@
+//AddRecipeActivity is where user create/add new recipe.
+//User is required to fill up the recipe name, ingredients and step.
+//Recipe image can be added through camera or picking image from gallery.
+
 package com.example.recipeapp_1.activity
 
 import android.Manifest
@@ -86,7 +90,7 @@ class AddRecipeActivity : AppCompatActivity(), AdapterView.OnItemSelectedListene
                 startActivity(intent)
                 this.finish()
             }else{
-                Toast.makeText(this, "Record not saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Recipe not saved", Toast.LENGTH_SHORT).show()
             }
         }
     }

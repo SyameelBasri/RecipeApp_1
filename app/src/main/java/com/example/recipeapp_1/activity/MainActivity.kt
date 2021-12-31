@@ -1,14 +1,15 @@
+//MainActivity is the app homepage.
+//Contains list of recipe and filter for recipe type, time require and serve pax
+
 package com.example.recipeapp_1.activity
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp_1.DatabaseHelper
@@ -18,10 +19,6 @@ import com.example.recipeapp_1.model.RecipeModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
-
-    companion object{
-        private const val STORAGE_REQUEST_PERMISSION = 4
-    }
 
     private lateinit var recipeTypes: Spinner
     private lateinit var recipeTime: Spinner
@@ -57,21 +54,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             val intent = Intent(this, RecipeDetailsActivity::class.java)
             intent.putExtra("id", it.recipeId)
             startActivity(intent)
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == STORAGE_REQUEST_PERMISSION){
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-
-            }else{
-                Toast.makeText(this,"No storage permission", Toast.LENGTH_LONG).show()
-            }
         }
     }
 

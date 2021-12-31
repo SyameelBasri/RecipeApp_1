@@ -1,3 +1,6 @@
+//Detailed recipe list.
+//All items displayed are editable.
+
 package com.example.recipeapp_1.activity
 
 import android.Manifest

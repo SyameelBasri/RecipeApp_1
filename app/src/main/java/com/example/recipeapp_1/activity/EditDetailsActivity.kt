@@ -1,3 +1,6 @@
+//User edit recipe name, recipe type, time require and serve pax.
+//Recipe name cannot be left empty
+
 package com.example.recipeapp_1.activity
 
 import android.content.Intent
@@ -33,29 +36,32 @@ class EditDetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         fieldRecipeName.setText(recipe.recipeName)
 
-        btnEdit.setOnClickListener{
-            editRecipeDetails()
-            val intent = Intent(this, RecipeDetailsActivity::class.java)
-            intent.putExtra("id", recipe.recipeId)
-            startActivity(intent)
-            this.finish()
-        }
+        btnEdit.setOnClickListener{editRecipeDetails()}
 
     }
 
     private fun editRecipeDetails(){
-        recipe.recipeName = fieldRecipeName.text.toString()
-        recipe.recipeType = selectedType
-        recipe.recipeTime = selectedTime
-        recipe.recipePax = selectedPax
+        val name = fieldRecipeName.text.toString()
 
-        val status =dbHelper.updateRecipe(recipe)
-        if(status > -1){
-            Toast.makeText(this,"Recipe Updated", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(this,"Update failed", Toast.LENGTH_LONG).show()
+        if(name.isEmpty()){
+            Toast.makeText(this,"Please enter recipe name.", Toast.LENGTH_LONG).show()
+        }else{
+            recipe.recipeName = name
+            recipe.recipeType = selectedType
+            recipe.recipeTime = selectedTime
+            recipe.recipePax = selectedPax
+
+            val status =dbHelper.updateRecipe(recipe)
+            if(status > -1){
+                Toast.makeText(this,"Recipe Updated", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, RecipeDetailsActivity::class.java)
+                intent.putExtra("id", recipe.recipeId)
+                startActivity(intent)
+                this.finish()
+            } else {
+                Toast.makeText(this,"Update failed", Toast.LENGTH_LONG).show()
+            }
         }
-
     }
 
     private fun initView(){

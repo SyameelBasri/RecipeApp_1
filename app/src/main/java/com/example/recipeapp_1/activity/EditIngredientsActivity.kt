@@ -1,3 +1,6 @@
+//User edit recipe ingredients.
+//Recipe ingredient cannot be left empty.
+
 package com.example.recipeapp_1.activity
 
 import android.content.Intent
@@ -37,13 +40,13 @@ class EditIngredientsActivity : AppCompatActivity() {
                 val status =dbHelper.updateRecipe(recipe)
                 if(status > -1){
                     Toast.makeText(this,"Recipe Updated", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, RecipeDetailsActivity::class.java)
+                    intent.putExtra("id", recipe.recipeId)
+                    startActivity(intent)
+                    this.finish()
                 } else {
                     Toast.makeText(this,"Update failed", Toast.LENGTH_LONG).show()
                 }
-                val intent = Intent(this, RecipeDetailsActivity::class.java)
-                intent.putExtra("id", recipe.recipeId)
-                startActivity(intent)
-                this.finish()
             }
         }
     }

@@ -1,24 +1,17 @@
+//DatabaseHelper manage the data insert, fetch, update & delete.
+//Upon installation, the preload 'recipe.db' in assets folder will be copied and used as the database.
+
 package com.example.recipeapp_1
 
-import android.Manifest
 import android.content.ContentValues
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.database.Cursor
-import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.example.recipeapp_1.model.RecipeModel
 import java.io.*
-import java.lang.Error
 import java.lang.Exception
-import java.util.*
 import kotlin.collections.ArrayList
 
 class DatabaseHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -93,8 +86,6 @@ class DatabaseHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-        db!!.execSQL("DROP TABLE IF EXISTS $TBL_RECIPE")
-        onCreate(db)
     }
 
 
