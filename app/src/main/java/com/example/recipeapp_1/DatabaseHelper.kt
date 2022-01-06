@@ -137,7 +137,7 @@ class DatabaseHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_
 
     fun getRecipes(type: String, time: String, pax: String): ArrayList<RecipeModel>{
         val recipeList: ArrayList<RecipeModel> = ArrayList()
-        var selectQuery = "SELECT * FROM $TBL_RECIPE ORDER BY $ID DESC"
+        var selectQuery = "SELECT * FROM $TBL_RECIPE"
         val db = this.readableDatabase
 
         if(type != "All"){
@@ -161,6 +161,7 @@ class DatabaseHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_
 
         val cursor: Cursor?
         try {
+            selectQuery = "$selectQuery ORDER BY $ID DESC"
             cursor = db.rawQuery(selectQuery, null)
         } catch (e: Exception){
             e.printStackTrace()
